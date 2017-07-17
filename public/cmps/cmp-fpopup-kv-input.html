@@ -1,0 +1,150 @@
+<!-- TEMPLATE --------------------------------------------->
+<template id="id-template-fpopup-kv-input">
+	<style>
+		#id-fpopup-kv-input-cntr {
+			
+		}
+		
+		x-fpopup-input {
+			display : block;
+			margin  : 0;
+		}
+		
+		x-fpopup-input:first-child {
+			margin-bottom : 2px;
+		}
+	
+	</style>
+	
+	<div id="id-fpopup-kv-input-cntr">
+	</div>
+
+</template>
+<!-- END TEMPLATE ----------------------------------------->
+
+<script>
+	
+	
+	//--------------------------------------------------------
+	function FPopupKVInput(){
+		
+		var parent;
+		
+		var data;
+		
+		var el_cntr;
+		var el_key;
+		var el_value;
+		
+		var ID_CNTR = "#id-fpopup-kv-input-cntr";
+		
+		//------------------------------------------------------
+		this.Init = function( _parent ){
+			
+			parent = _parent;
+			
+			var el_root = FCmp.ElementMakeRoot(
+				parent, FPopupKVInput.template, FPopupKVInput.TAG );
+			
+			el_cntr = el_root.querySelector( ID_CNTR );
+		};
+		
+		//------------------------------------------------------
+		this.Render = function(){
+			FCmp.ElementMakeEmpty( el_cntr );
+			AddRowInput( data['text_key'], data['text_value'] );
+		};//Render
+		
+		//------------------------------------------------------
+		this.SetData = function( _data ){
+			data = _data;
+		};//SetData
+		
+		//------------------------------------------------------
+		function AddRowInput( text_key, text_value ){
+			
+			var element_data_key = {
+				'tag'     : FPopupInput.TAG,
+				'_data'   : {
+					label : 'KEY',
+					text  : text_key
+				},
+				'_render' : ''
+			};
+			
+			var element_data_value = {
+				'tag'     : FPopupInput.TAG,
+				'_data'   : {
+					label : 'VALUE',
+					text  : text_value
+				},
+				'_render' : ''
+			};
+			
+			el_key   = FCmp.ElementAdd( el_cntr, element_data_key );
+			el_value = FCmp.ElementAdd( el_cntr, element_data_value );
+		}//AddRowInput
+		
+		//------------------------------------------------------
+		/**
+		 * @returns {boolean}
+		 * @description {returns TRUE if both key and value
+		 * inputs are empty}
+		 */
+		this.IsEmpty = function(){
+			if( el_key._cmp.IsEmpty() === true &&
+				el_value._cmp.IsEmpty() === true ){
+				return true;
+			}//if
+			return false;
+		};//IsEmpty
+		
+		//------------------------------------------------------
+		/**
+		 * @returns {object}
+		 * @description {returns key value data pair from inputs}
+		 */
+		this.GetData = function(){
+			
+			var text_key   = el_key._cmp.GetData();
+			var text_value = el_value._cmp.GetData();
+			
+			var kv_data = {};
+			
+			kv_data[text_key] = text_value;
+			
+			return kv_data;
+		};//IsEmpty
+		
+	}//class
+	
+	//--------------------------------------------------------
+	FPopupKVInput.TAG         = "x-fpopup-kv-input";
+	FPopupKVInput.ID_TEMPLATE = "#id-template-fpopup-kv-input";
+	
+	//--------------------------------------------------------
+	FPopupKVInput.InitTemplate = function(){
+		var script = document._currentScript || document.currentScript;
+		var owner  = script.ownerDocument;
+		
+		FPopupKVInput.template = owner.querySelector(
+			FPopupKVInput.ID_TEMPLATE );
+	};//InitTemplate
+	
+	//--------------------------------------------------------
+	FPopupKVInput.CallbackCreated = function(){
+		var instance = new FPopupKVInput();
+		instance.Init( this );
+		this._cmp = instance;
+	};//CallbackCreated
+	
+	
+	//--------------------------------------------------------
+	FPopupKVInput.InitTemplate();
+	(function(){
+		FCmp.InitComponent(
+			FPopupKVInput.CallbackCreated, FPopupKVInput.TAG );
+	}());//OnReady function
+
+
+</script>

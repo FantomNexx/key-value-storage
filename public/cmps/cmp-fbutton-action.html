@@ -1,0 +1,105 @@
+<!-- TEMPLATE --------------------------------------------->
+<template id="id-template-fbutton-action">
+	<style>
+		
+		#id-fbutton-action-cntr {
+			width              : 56px;
+			height             : 56px;
+			border-radius      : 56px;
+			
+			background-color   : #fafafa;
+			
+			-webkit-box-shadow : 0 0 10px 0 rgba(0, 0, 0, 0.38);
+			-moz-box-shadow    : 0 0 10px 0 rgba(0, 0, 0, 0.38);
+			box-shadow         : 0 0 10px 0 rgba(0, 0, 0, 0.38);
+			
+			cursor             : pointer;
+		}
+		
+		#id-fbutton-action-cntr:hover {
+			background-color : #eeeeee;
+		}
+		
+		#id-fbutton-action-cntr:active {
+			background-color   : #cccccc;
+			
+			-webkit-box-shadow : 0 0 5px 0 rgba(0, 0, 0, 1);
+			-moz-box-shadow    : 0 0 5px 0 rgba(0, 0, 0, 1);
+			box-shadow         : 0 0 5px 0 rgba(0, 0, 0, 1);
+		}
+		
+		#id-text {
+			font-family : 'Source Code Pro', monospace !important;
+			font-size   : 32px;
+			color       : #212121;
+			padding-top : 12px;
+			text-align  : center;
+			
+		}
+	</style>
+	
+	<div id="id-fbutton-action-cntr">
+		<div id="id-text" class="noselect">+</div>
+	</div>
+
+</template>
+<!-- END TEMPLATE ----------------------------------------->
+
+<script>
+	
+	
+	//--------------------------------------------------------
+	function FButtonAction(){
+		
+		var parent;
+		
+		var el_cntr;
+		
+		var ID_CNTR = "#cntr_faction_button";
+		
+		//------------------------------------------------------
+		this.Init = function( _parent ){
+			
+			parent                = _parent;
+			parent.style.position = "fixed";
+			parent.style.right    = "16px";
+			parent.style.bottom   = "16px";
+			//parent.style.zIndex   = "-1";
+			
+			var el_root = FCmp.ElementMakeRoot(
+				parent, FButtonAction.template, FButtonAction.TAG );
+			
+			el_cntr = el_root.querySelector( ID_CNTR );
+		};
+	}//class
+	
+	
+	FButtonAction.TAG         = "x-fbutton-action";
+	FButtonAction.ID_TEMPLATE = "#id-template-fbutton-action";
+	
+	//--------------------------------------------------------
+	FButtonAction.InitTemplate = function(){
+		var script = document._currentScript || document.currentScript;
+		var owner  = script.ownerDocument;
+		
+		FButtonAction.template = owner.querySelector(
+			FButtonAction.ID_TEMPLATE );
+	};//InitTemplate
+	
+	//--------------------------------------------------------
+	FButtonAction.CallbackCreated = function(){
+		var instance = new FButtonAction();
+		instance.Init( this );
+		this._cmp = instance;
+	};//CallbackCreated
+	
+	
+	//--------------------------------------------------------
+	FButtonAction.InitTemplate();
+	(function(){
+		FCmp.InitComponent(
+			FButtonAction.CallbackCreated, FButtonAction.TAG );
+	}());//OnReady function
+
+
+</script>

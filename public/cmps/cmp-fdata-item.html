@@ -1,0 +1,207 @@
+<!-- TEMPLATE --------------------------------------------->
+<template id="id-template-fdata-item">
+	<style>
+		.data-item {
+			font-family        : 'Source Code Pro', monospace !important;
+			
+			vertical-align     : top;
+			display            : inline-block;
+			max-width          : 320px;
+			background-color   : #fafafa;
+			
+			padding            : 0 0 16px 0;
+			margin             : 16px 16px 0 0;
+			
+			-webkit-box-shadow : 0 0 10px 0 rgba(0, 0, 0, 0.38);
+			-moz-box-shadow    : 0 0 10px 0 rgba(0, 0, 0, 0.38);
+			box-shadow         : 0 0 10px 0 rgba(0, 0, 0, 0.38);
+		}
+		
+		.data-item-title {
+			font-size        : 14px;
+			line-height      : 32px;
+			font-weight      : bold;
+			color            : #212121;
+			text-transform   : uppercase;
+			padding          : 0 16px 0 16px;
+			margin-bottom    : 16px;
+			background-color : #e9e9e9;
+		}
+		
+		.data-item-key {
+			font-size      : 12px;
+			line-height    : 1.382;
+			font-weight    : bold;
+			color          : #212121;
+			text-transform : uppercase;
+			padding        : 0 16px 0 16px;
+		}
+		
+		.data-item-value {
+			font-size     : 14px;
+			line-height   : 1.382;
+			color         : #666;
+			margin-bottom : 20px;
+			word-break    : break-all;
+			padding       : 0 16px 0 16px;
+		}
+		
+		.data-item-value:last-child {
+			margin-bottom : 0;
+		}
+	</style>
+	
+	
+	<div class="data-item">
+	</div>
+
+</template>
+<!-- END TEMPLATE ----------------------------------------->
+
+<script>
+	
+	//--------------------------------------------------------
+	var FDataItem = function(){
+		
+		var self = {};
+		
+		var parent;
+		
+		var data;
+		
+		var el_root = undefined;
+		var el_cntr = undefined;
+		
+		
+		var CSS_CNTR = '.data-item';
+		
+		var CSS_TITLE = 'data-item-title';
+		var CSS_KEY   = 'data-item-key';
+		var CSS_VALUE = 'data-item-value';
+		
+		//------------------------------------------------------
+		self.Init = function( _parent ){
+			parent = _parent;
+			
+			el_root = FCmp.ElementMakeRoot(
+				parent, FDataItem.template, FDataItem.TAG );
+			
+			el_cntr = el_root.querySelector( CSS_CNTR );
+			
+			self.Render();
+		};
+		
+		//------------------------------------------------------
+		self.Render = function(){
+			
+			FCmp.ElementMakeEmpty( el_cntr );
+			
+			if( FCmp.IsEmptyObject( data ) ){ return; }//if
+			
+			var element;
+			var element_data_key;
+			var element_data_value;
+			
+			var element_data_title = {
+				'tag'        : 'div',
+				'text'       : data['name'],
+				'class_name' : CSS_TITLE
+			};
+			
+			//add title
+			element = FCmp.ElementAdd( el_cntr, element_data_title );
+			
+			for( var key in data ){
+				if( data.hasOwnProperty( key ) ){
+					
+					if( key.charAt( 0 ) === '_' ){
+						//do not show system data
+						continue;
+					}//if special key
+					
+					element_data_key = {
+						'tag'        : 'div',
+						'text'       : key,
+						'class_name' : CSS_KEY
+					};
+					
+					element_data_value = {
+						'tag'        : 'div',
+						'text'       : data[key],
+						'class_name' : CSS_VALUE
+					};
+					
+					//add key
+					element = FCmp.ElementAdd( el_cntr, element_data_key );
+					
+					//add value
+					element = FCmp.ElementAdd( el_cntr, element_data_value );
+					element.addEventListener( 'click', OnClickValue );
+				}//if
+			}//for
+		};//Refresh
+		
+		//------------------------------------------------------
+		self.SetData = function( _data ){
+			data = _data;
+		};//SetData
+		//------------------------------------------------------
+		self.GetData = function(){
+			return data;
+		};//GetData
+		
+		//------------------------------------------------------
+		function OnClickValue( e ){
+			var node  = e.currentTarget;
+			var range = undefined;
+			
+			if( document.selection ){
+				
+				range = document.body.createTextRange();
+				range.moveToElementText( node );
+				range.select();
+			}else if( window.getSelection ){
+				
+				range = document.createRange();
+				range.selectNodeContents( node );
+				window.getSelection().removeAllRanges();
+				window.getSelection().addRange( range );
+			}//if
+			
+		}//OnClickValue
+		
+		return self;
+	};//class
+	
+	
+	//--------------------------------------------------------
+	FDataItem.ID_TEMPLATE = '#id-template-fdata-item';
+	FDataItem.TAG         = 'x-fdata-item';
+	FDataItem.template    = undefined;
+	
+	//--------------------------------------------------------
+	FDataItem.InitTemplate = function(){
+		var script = document._currentScript || document.currentScript;
+		var owner  = script.ownerDocument;
+		
+		FDataItem.template = owner.querySelector(
+			FDataItem.ID_TEMPLATE );
+	};//InitTemplate
+	
+	//--------------------------------------------------------
+	FDataItem.CallbackCreated = function(){
+		var instance = new FDataItem();
+		instance.Init( this );
+		this._cmp = instance;
+	};//CallbackCreated
+	
+	
+	//------------------------------------------------------
+	FDataItem.InitTemplate();
+	
+	(function(){
+		FCmp.InitComponent(
+			FDataItem.CallbackCreated, FDataItem.TAG );
+	}());//OnReady function
+
+</script>

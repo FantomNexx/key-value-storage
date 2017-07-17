@@ -1,0 +1,186 @@
+<!-- TEMPLATE --------------------------------------------->
+<template id="id-template-fpopup-input">
+	<style>
+		
+		.row {
+			font-size       : 14px;
+			color           : #212121;
+			height          : 24px;
+			width           : 100%;
+			border-collapse : separate;
+			border-spacing  : 0;
+		}
+		
+		.row td {
+			vertical-align : top;
+		}
+		
+		.row-label {
+			width : 20%;
+		}
+		
+		.row-input {
+			width : 80%;
+		}
+		
+		#id-label {
+			line-height : 24px;
+			font-size   : 14px;
+			font-weight : bold;
+			word-break  : break-all;
+		}
+		
+		#id-input {
+			border           : none;
+			font-size        : 14px;
+			line-height      : 1.382;
+			background-color : #e9e9e9;
+			padding          : 2px 4px 2px 4px;
+			word-break       : break-all;
+			border-bottom    : 1px solid #e9e9e9;
+		}
+		
+		#id-input:focus {
+			border-bottom : 1px solid #4285f4;
+			outline       : none;
+		}
+	</style>
+	
+	<table class="row">
+		<tr>
+			<td class="row-label">
+				<div id="id-label">KEY</div>
+			</td>
+			<td class="row-input">
+				<div id="id-input" contentEditable="true">VALUE</div>
+			</td>
+		</tr>
+	</table>
+
+
+</template>
+<!-- END TEMPLATE ----------------------------------------->
+
+<script>
+	//--------------------------------------------------------
+	/** @typedef FPopupInput*/
+	function FPopupInput(){
+		
+		var parent;
+		
+		var data;
+		
+		var el_root;
+		var el_label;
+		var el_input;
+		
+		var ID_LABEL = '#id-label';
+		var ID_INPUT = '#id-input';
+		
+		//------------------------------------------------------
+		this.Init = function( _parent ){
+			
+			parent = _parent;
+			
+			el_root = FCmp.ElementMakeRoot(
+				parent, FPopupInput.template, FPopupInput.TAG );
+			
+			el_label = el_root.querySelector( ID_LABEL );
+			el_input = el_root.querySelector( ID_INPUT );
+			
+			el_input.addEventListener( "blur", OnInputTextChange );
+			el_input.addEventListener( "keyup", OnInputTextChange );
+			el_input.addEventListener( "paste", OnInputTextPaste );
+			el_input.addEventListener( "copy", OnInputTextChange );
+			el_input.addEventListener( "cut", OnInputTextChange );
+			el_input.addEventListener( "delete", OnInputTextChange );
+			el_input.addEventListener( "mouseup", OnInputTextChange );
+			
+			this.Render();
+			
+		};//Init
+		
+		//------------------------------------------------------
+		this.Render = function(){
+			if( data === null || data === undefined ){
+				el_label.innerText = '';
+				el_input.innerText = '';
+				return;
+			}//if
+			
+			el_label.innerText = data['label'];
+			el_input.innerText = data['text'];
+		};//Refresh
+		
+		//------------------------------------------------------
+		this.SetData = function( _data ){
+			data = _data;
+		};//SetData
+		
+		//------------------------------------------------------
+		this.GetData = function(){
+			return data['text'];
+		};//SetData
+		
+		
+		//------------------------------------------------------
+		function OnInputTextPaste(e){
+			
+			//cancel paste
+			e.preventDefault();
+			
+			//get text representation of clipboard
+			var text = e.clipboardData.getData("text/plain");
+			
+			data['text'] = text;
+			el_input.innerText = text;
+		}//OnInputTextPaste
+		//------------------------------------------------------
+		function OnInputTextChange( e ){
+			data['text'] = el_input.innerText;
+		}//OnInputTextChange
+		
+		//------------------------------------------------------
+		/**
+		 * @returns {boolean}
+		 */
+		this.IsEmpty = function(){
+			if( data['text'] === '' ){
+				return true;
+			}//if
+			return false;
+		};//IsEmpty
+		
+	}//class
+	
+	//--------------------------------------------------------
+	FPopupInput.ID_TEMPLATE = '#id-template-fpopup-input';
+	FPopupInput.TAG         = 'x-fpopup-input';
+	FPopupInput.template    = undefined;
+	
+	//--------------------------------------------------------
+	FPopupInput.InitTemplate = function(){
+		var script = document._currentScript || document.currentScript;
+		var owner  = script.ownerDocument;
+		
+		FPopupInput.template = owner.querySelector(
+			FPopupInput.ID_TEMPLATE );
+	};//InitTemplate
+	
+	//--------------------------------------------------------
+	FPopupInput.CallbackCreated = function(){
+		var instance = new FPopupInput();
+		instance.Init( this );
+		this._cmp = instance;
+	};//CallbackCreated
+	
+	
+	//--------------------------------------------------------
+	FPopupInput.InitTemplate();
+	
+	(function(){
+		FCmp.InitComponent(
+			FPopupInput.CallbackCreated, FPopupInput.TAG );
+	}());//OnReady function
+
+</script>

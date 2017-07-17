@@ -1,0 +1,158 @@
+<!-- TEMPLATE --------------------------------------------->
+<template id="id-template-fgrid">
+    <style>
+        .container-grid{
+            background-color : rgba(0, 0, 0, 0);
+            padding          : 16px;
+        }
+    </style>
+    
+    <div class="container-grid">
+    </div>
+
+</template>
+<!-- END TEMPLATE ----------------------------------------->
+
+<script>
+   
+   
+   //-------------------------------------------------------
+   /**@constructor*/
+   var FGrid = function(){
+      
+      var self = {};
+      
+      var parent;
+      
+      var data;
+      
+      var el_root = undefined;
+      var el_cntr = undefined;
+      
+      var CSS_CNTR = '.container-grid';
+      
+      
+      //----------------------------------------------------
+      self.Init = function( _parent ){
+         parent = _parent;
+         
+         el_root = FCmp.ElementMakeRoot(
+            parent, FGrid.template, FGrid.TAG );
+         
+         el_cntr = el_root.querySelector( CSS_CNTR );
+      };//Init
+      
+      //----------------------------------------------------
+      self.Render = function(){
+         
+         FCmp.ElementMakeEmpty( el_cntr );
+         
+         if( FCmp.IsEmptyObject( data ) ){
+            return;
+         }//if
+         
+         var element;
+         var element_data;
+         
+         for( var i = 0; i < data.length; i++ ){
+            
+            element_data = {
+               'tag'    : FDataItem.TAG,
+               '_render': '',
+               '_data'  : data[ i ]
+            };
+            
+            element = FCmp.ElementAdd( el_cntr, element_data );
+            
+            SetEventOnItemDClick( element );
+         }//for
+      };//Refresh
+      
+      
+      //----------------------------------------------------
+      self.SetData = function( _data ){
+         data = _data;
+      };//SetData
+      
+      //----------------------------------------------------
+      /**  @returns {*} */
+      self.GetElement = function(){
+         return el_root;
+      };//SetData
+      
+      //----------------------------------------------------
+      function SetEventOnItemDClick( node ){
+         
+         node.addEventListener( 'click', function(){
+            
+            if( !FGrid.IsDoubleClicked() ){
+               return;
+            }//if
+            
+            var event = new Event(
+               FGrid.EVENT_ITEM_DCLICK, { bubbles: true } );
+            
+            event.fdata = node._cmp.GetData();
+            
+            el_root.dispatchEvent( event );
+         } );
+      }//SetEventOnItemDClick
+      
+      
+      return self;
+   };//class FGrid
+   
+   
+   //-------------------------------------------------------
+   FGrid.TAG = 'x-fgrid';
+   FGrid.ID_TEMPLATE = '#id-template-fgrid';
+   FGrid.template = undefined;
+   
+   //-------------------------------------------------------
+   FGrid.EVENT_ITEM_DCLICK = 'EVENT_ITEM_DCLICK';
+   FGrid.event_hander_on_item_dclick = undefined;
+   FGrid.timestamp_last_click = Date.now();
+   
+   //-------------------------------------------------------
+   /**  @returns {boolean} */
+   FGrid.IsDoubleClicked = function(){
+      
+      var now = Date.now();
+      
+      var difference = now - FGrid.timestamp_last_click;
+      
+      if( difference > 400 ){
+         FGrid.timestamp_last_click = now;
+         return false;
+      }//if
+      
+      FGrid.timestamp_last_click = -1;
+      
+      return true;
+   };//IsDoubleClicked
+   
+   //-------------------------------------------------------
+   FGrid.InitTemplate = function(){
+      var script = document._currentScript || document.currentScript;
+      var owner = script.ownerDocument;
+      
+      FGrid.template = owner.querySelector( FGrid.ID_TEMPLATE );
+   };//InitTemplate
+   
+   //-------------------------------------------------------
+   FGrid.CallbackCreated = function(){
+      var instance = new FGrid();
+      instance.Init( this );
+      this._cmp = instance;
+   };//CallbackCreated
+   
+   
+   //-------------------------------------------------------
+   FGrid.InitTemplate();
+   
+   (function(){
+      FCmp.InitComponent(
+         FGrid.CallbackCreated, FGrid.TAG );
+   }());//OnReady function
+
+</script>
