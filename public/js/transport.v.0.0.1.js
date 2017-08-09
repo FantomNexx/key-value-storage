@@ -7,7 +7,6 @@ var STATUS_CODE = {
 function Transport(){
    
    var header = 'Content-Type';
-   //var header_value = 'application/x-www-form-urlencoded; charset=UTF-8';
    var header_value = 'application/json; charset=UTF-8';
    
    
@@ -73,6 +72,5 @@ function Transport(){
       console.log( 'There was a problem with the request.' );
    }//OnStateChanged
    //-------------------------------------------------------
-   
    
 }//class
