@@ -196,7 +196,7 @@
                text_value: text_value
             },
             '_render': 1
-         };
+         };//element_data
          
          FCmp.ElementAdd( el_content, element_data );
       }//AddPopupKVInput
@@ -214,6 +214,8 @@
          ClearDataRows();
          
          AddPopupKVInput( 'name', '' );
+         AddPopupKVInput( 'login', '' );
+         AddPopupKVInput( 'password', '' );
       };//SetStateNew
       //------------------------------------------------------
       this.SetStateEdit = function(){

@@ -327,6 +327,7 @@ function FDB(){
    };//CollectionDataInsert
    //-------------------------------------------------------
    
+   //-------------------------------------------------------
    function GetQuery( collection_filter, search_type ){
       
       var query;
@@ -354,7 +355,7 @@ function FDB(){
       
       return query;
    }//GetQuery
-   
+   //-------------------------------------------------------
 }//FDB
 
 
