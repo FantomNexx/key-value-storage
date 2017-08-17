@@ -1,79 +1,78 @@
 <!-- TEMPLATE --------------------------------------------->
 <template id="id-template">
-	<style>
-		#id-template-cntr {
-			
-		}
-	</style>
-	
-	<div id="id-template-cntr">
-	</div>
+    <style>
+        #id-template-cntr{
+        }
+    </style>
+    
+    <div id="id-template-cntr">
+    </div>
 
 </template>
 <!-- END TEMPLATE ----------------------------------------->
 
 <script>
-	
-	
-	//--------------------------------------------------------
-	function FTemplate(){
-		
-		var parent;
-		
-		var data;
-		
-		var el_cntr;
-		
-		var ID_CNTR = "#id-template-cntr";
-		
-		//------------------------------------------------------
-		this.Init = function( _parent ){
-			
-			parent = _parent;
-			
-			var el_root = FCmp.ElementMakeRoot(
-				parent, FTemplate.template, FTemplate.TAG );
-			
-			el_cntr = el_root.querySelector( ID_CNTR );
-		};
-		
-		//------------------------------------------------------
-		this.Render = function(){
-		};//Render
-		
-		//------------------------------------------------------
-		this.SetData = function( _data ){
-			data = _data;
-		};//SetData
-	}//class
-	
-	
-	FTemplate.TAG         = "x-template";
-	FTemplate.ID_TEMPLATE = "#id-template";
-	
-	//--------------------------------------------------------
-	FTemplate.InitTemplate = function(){
-		var script = document._currentScript || document.currentScript;
-		var owner  = script.ownerDocument;
-		
-		FTemplate.template = owner.querySelector(
-			FTemplate.ID_TEMPLATE );
-	};//InitTemplate
-	
-	//--------------------------------------------------------
-	FTemplate.CallbackCreated = function(){
-		var instance = new FTemplate();
-		instance.Init( this );
-		this._cmp = instance;
-	};//CallbackCreated
-	
-	
-	//--------------------------------------------------------
-	FTemplate.InitTemplate();
-	(function(){
-		FCmp.InitComponent(
-			FTemplate.CallbackCreated, FTemplate.TAG );
-	}());//OnReady function
+   
+   
+   //--------------------------------------------------------
+   function FTemplate(){
+      
+      var parent;
+      
+      var data;
+      
+      var el_cntr;
+      
+      var ID_CNTR = '#id-template-cntr';
+      
+      //------------------------------------------------------
+      this.Init = function( _parent ){
+         
+         parent = _parent;
+         
+         var el_root = FCmp.ElementMakeRoot(
+            parent, FTemplate.template, FTemplate.TAG );
+         
+         el_cntr = el_root.querySelector( ID_CNTR );
+      };
+      
+      //------------------------------------------------------
+      this.Render = function(){
+      };//Render
+      
+      //------------------------------------------------------
+      this.SetData = function( _data ){
+         data = _data;
+      };//SetData
+   }//class
+   
+   
+   FTemplate.TAG = 'x-template';
+   FTemplate.ID_TEMPLATE = '#id-template';
+   
+   //--------------------------------------------------------
+   FTemplate.InitTemplate = function(){
+      var script = document._currentScript || document.currentScript;
+      var owner = script.ownerDocument;
+      
+      FTemplate.template = owner.querySelector(
+         FTemplate.ID_TEMPLATE );
+   };//InitTemplate
+   
+   //--------------------------------------------------------
+   FTemplate.CallbackCreated = function(){
+      var instance = new FTemplate();
+      instance.Init( this );
+      this._cmp = instance;
+   };//CallbackCreated
+   
+   
+   //--------------------------------------------------------
+   FTemplate.InitTemplate();
+   (function(){
+      FCmp.InitComponent(
+         FTemplate.CallbackCreated, FTemplate.TAG );
+   }());//OnReady function
 
 
 </script>

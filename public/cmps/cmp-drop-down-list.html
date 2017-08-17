@@ -1,0 +1,291 @@
+<!-- TEMPLATE --------------------------------------------->
+<template id="id-tmpl-drop-down-list">
+    <style>
+        
+        #id-drop-down-list-cntr *{
+            box-sizing         : border-box;
+            -webkit-box-sizing : border-box;
+            -moz-box-sizing    : border-box;
+        }
+        
+        #id-drop-down-list-cntr{
+            width            : 128px; /*changed in FDropDownList*/
+            margin           : 16px 16px 0 16px;
+            background-color : #fafafa;
+            font-size        : 0;
+            box-shadow       : 0 0 10px 0 rgba(0, 0, 0, 0.38);
+            position         : relative;
+            cursor           : pointer;
+        }
+        
+        #id-drop-down-list-cntr:hover{
+            background-color : rgba(0, 0, 0, 0.1);
+        }
+        
+        #id-drop-down-list-text{
+            font-size      : 12px;
+            color          : black;
+            line-height    : 32px;
+            padding        : 0 8px 0 8px;
+            display        : inline-block;
+            position       : relative;
+            width          : calc(100% - 32px);
+            vertical-align : bottom;
+        }
+        
+        #id-drop-down-list-btn{
+            width       : 32px;
+            line-height : 32px;
+            text-align  : center;
+            display     : inline-block;
+            color       : black;
+            font-size   : 11px;
+        }
+        
+        #id-drop-down-list-items{
+            width            : 128px; /*changed in FDropDownList*/
+            position         : absolute;
+            font-size        : 12px;
+            color            : black;
+            background-color : white;
+            box-shadow       : 0 0 10px 0 rgba(0, 0, 0, 0.38);
+            visibility       : hidden;
+        }
+        
+        #id-drop-down-list-items > div{
+            padding : 8px 8px 8px 8px;
+            cursor  : pointer;
+        }
+        
+        #id-drop-down-list-items > div:hover{
+            background-color : rgba(0, 0, 0, 0.1);
+        }
+    
+    </style>
+    
+    <div id="id-drop-down-list-cntr">
+        <div id="id-drop-down-list-text">ITEM 1</div>
+        <div id="id-drop-down-list-btn">▼</div>
+        <div id="id-drop-down-list-items">
+            <div>ITEM 1 (means no one)</div>
+            <div>ITEM 2 (tell us a story)</div>
+            <div>ITEM 3 (goes from here to the beyound)</div>
+        </div>
+    </div>
+
+</template>
+<!-- END TEMPLATE ----------------------------------------->
+
+<script>
+   
+   //-------------------------------------------------------
+   function FDropDownList(){
+      
+      var parent;
+      
+      var data;
+      
+      var ID_CNTR = '#id-drop-down-list-cntr';
+      var ID_TEXT = '#id-drop-down-list-text';
+      var ID_BTN = '#id-drop-down-list-btn';
+      var ID_ITEMS = '#id-drop-down-list-items';
+      
+      var el_cntr;
+      var el_text;
+      var el_btn;
+      var el_items;
+      
+      var id_selected_old = -1;
+      var id_selected = -1;
+      var is_visible_list = false;
+      
+      var handler_on_selection_changed = null;
+      
+      
+      //----------------------------------------------------
+      this.Init = function( _parent ){
+         
+         parent = _parent;
+         
+         var el_root = FCmp.ElementMakeRoot(
+            parent, FDropDownList.template, FDropDownList.TAG );
+         
+         el_cntr = el_root.querySelector( ID_CNTR );
+         
+         el_text = el_cntr.querySelector( ID_TEXT );
+         el_btn = el_cntr.querySelector( ID_BTN );
+         el_items = el_cntr.querySelector( ID_ITEMS );
+         
+         el_cntr.style.width = '172px';
+         el_items.style.width = '172px';
+         
+         el_cntr.addEventListener( 'click', OnClickCntr );
+         
+         window.addEventListener( 'click', OnClickOutside );
+      };//Init
+      
+      //----------------------------------------------------
+      this.Render = function(){
+         
+         el_text.innerText = '';
+         FCmp.ElementMakeEmpty( el_items );
+         
+         if( data === null ){
+            return;
+         }//if
+         if( data.length === 0 ){
+            return;
+         }//if
+         
+         var element_params;
+         var element;
+         
+         for( var i = 0; i < data.length; i++ ){
+            
+            element_params = {
+               'tag'         : FCmp.tags.DIV,
+               'text'        : data[ i ].txt,
+               'element_data': data[ i ]
+            };//element_params
+            
+            element = FCmp.ElementAdd( el_items, element_params );
+            element.addEventListener( 'click', OnClickItem );
+         }//for
+         
+      };//Render
+      
+      //----------------------------------------------------
+      this.SetData = function( data_items ){
+         data = data_items;
+         //data structure
+         /*
+         [
+            { txt: 'text1', id : 0 },
+            { txt: 'text1', id : 1 }, ...
+         ]
+         */
+      };//SetData
+      //----------------------------------------------------
+      this.SetHandler_OnSelectionChanged = function( handler ){
+         handler_on_selection_changed = handler;
+      };//SetHandler_OnSelectionChanged
+      //----------------------------------------------------
+      
+      //----------------------------------------------------
+      /**
+       * @param id_selected
+       * @returns {void}
+       */
+      function SetSelectedById( id_selected_new ){
+         
+         var element_data =
+            FCmp.GetDataItemById( data, id_selected_new );
+         
+         if( element_data === null ){
+            return;
+         }//if
+         
+         el_text.innerText = element_data.txt;
+         id_selected = id_selected_new;
+      }//SetSelectedById
+      //----------------------------------------------------
+      this.SetSelectedById = function( id_selected ){
+         SetSelectedById( id_selected );
+      };//SetSelectedId
+      //----------------------------------------------------
+      this.GetIdSelected = function(){
+         return id_selected;
+      };//GetIdSelected
+      //----------------------------------------------------
+      
+      
+      //----------------------------------------------------
+      function OnClickCntr( e ){
+         e.stopPropagation();
+         
+         id_selected_old = id_selected;
+         
+         if( is_visible_list ){
+            HideList();
+         }else{
+            ShowList();
+         }//if
+      }//OnClickCntr
+      //----------------------------------------------------
+      function OnClickItem( e ){
+         e.stopPropagation();
+         
+         var node = e.currentTarget;
+         var element_data = FCmp.GetElementData( node );
+         
+         if( element_data === null ){
+            return;
+         }//if
+         if( element_data.id === undefined ){
+            return;
+         }//if
+         
+         SetSelectedById( element_data.id );
+         HideList();
+         OnSelectionChanged();
+      }//OnClickItem
+      //----------------------------------------------------
+      function OnSelectionChanged(){
+         if( id_selected === id_selected_old ){
+            return;
+         }//if
+         
+         if( handler_on_selection_changed != null ){
+            handler_on_selection_changed();
+         }//if
+         
+      }//OnSelectionChanged
+      //----------------------------------------------------
+      function OnClickOutside( e ){
+         if( is_visible_list ){
+            HideList();
+         }//if
+      }//OnClickCntr
+      
+      //----------------------------------------------------
+      function ShowList(){
+         el_items.style.visibility = 'visible';
+         is_visible_list = true;
+      }//ShowList
+      
+      //----------------------------------------------------
+      function HideList(){
+         el_items.style.visibility = 'hidden';
+         is_visible_list = false;
+      }//HideList
+      
+   }//class
+   
+   //-------------------------------------------------------
+   FDropDownList.TAG = 'x-drop-down-list';
+   FDropDownList.ID_TEMPLATE = '#id-tmpl-drop-down-list';
+   
+   //-------------------------------------------------------
+   FDropDownList.InitTemplate = function(){
+      var script = document._currentScript || document.currentScript;
+      var owner = script.ownerDocument;
+      
+      FDropDownList.template = owner.querySelector(
+         FDropDownList.ID_TEMPLATE );
+   };//InitTemplate
+   //-------------------------------------------------------
+   FDropDownList.CallbackCreated = function(){
+      var instance = new FDropDownList();
+      instance.Init( this );
+      this._cmp = instance;
+   };//CallbackCreated
+   
+   
+   //-------------------------------------------------------
+   FDropDownList.InitTemplate();
+   (function(){
+      FCmp.InitComponent(
+         FDropDownList.CallbackCreated, FDropDownList.TAG );
+   }());//OnReady function
+
+</script>

@@ -16,6 +16,15 @@ var REQUEST_URLS = {
    NotesUpdateOne: '/notes-update-one'
 };//REQUEST_URLS
 
+
+var SEARCH_TYPES = {
+   UNDEF  : -1,
+   BY_NAME: 1,
+   BY_TEXT: 2
+};//SEARCH_TYPES
+var search_type = SEARCH_TYPES.BY_NAME;
+
+
 //remember the last query
 var last_searched_text = '';
 var edit_item = undefined;
@@ -81,6 +90,11 @@ function NotesAddMany( items_data ){
 }//NotesAddMany
 //----------------------------------------------------------
 function NotesFind( searched_text, callback_result ){
+   NotesFindAdvanced(
+      searched_text, SEARCH_TYPES.UNDEF, callback_result );
+}//NotesFind
+//----------------------------------------------------------
+function NotesFindAdvanced( searched_text, search_type, callback_result ){
    
    last_searched_text = searched_text;
    
@@ -99,12 +113,13 @@ function NotesFind( searched_text, callback_result ){
    
    var request_data = {
       collection_name  : APP_DATA.collection_name,
-      collection_filter: collection_filter
+      collection_filter: collection_filter,
+      search_type      : search_type
    };//request_data
    
    transport.PostData(
       REQUEST_URLS.NotesFind, request_data, OnResult );
-}//NotesFind
+}//NotesFindAdvanced
 //----------------------------------------------------------
 function NotesUpdate(){
    
@@ -115,7 +130,6 @@ function NotesUpdate(){
       el_fgrid._cmp.SetData( notes );
       el_fgrid._cmp.Render();
    };//OnNotesFound
-   
    
    NotesFind( last_searched_text, OnNotesUpdate );
 }//NotesUpdate
@@ -182,9 +196,7 @@ function InitGrid(){
    transport.PostData(
       REQUEST_URLS.NotesGetAll, request_data, OnResult );
 }//InitGrid
-
 InitGrid();
-
 
 //----------------------------------------------------------
 function InitSearch(){
@@ -209,7 +221,8 @@ function InitSearch(){
       
       var searched_text = el_search.value;
       searched_text = searched_text.toLowerCase();
-      NotesFind( searched_text, OnNotesFound );
+      //NotesFind( searched_text, OnNotesFound );
+      NotesFindAdvanced( searched_text, search_type, OnNotesFound );
       
       /*
        var text = event.type +
@@ -227,9 +240,51 @@ function InitSearch(){
    };//OnKeyUp
    
 }//InitSearch
-
 InitSearch();
 
+//----------------------------------------------------------
+var el_id_drop_down_list = '#id-drop-down-list';
+function InitDropDownList(){
+   
+   var el = document.querySelector( el_id_drop_down_list );
+   
+   if( el.length === 0 ){
+      return;
+   }//if
+   
+   //-------------------------------------------------------
+   var GetDataDummy = function(){
+      
+      var item_search_by_name = {
+         txt: 'Search in names',
+         id : SEARCH_TYPES.BY_NAME
+      };
+      
+      var item_search_by_text = {
+         txt: 'Search everywhere',
+         id : SEARCH_TYPES.BY_TEXT
+      };
+      
+      var data_dummy = [];
+      data_dummy.push( item_search_by_name );
+      data_dummy.push( item_search_by_text );
+      
+      return data_dummy;
+   };//GetDataDummy
+   //-------------------------------------------------------
+   
+   var data_drop_down_list = GetDataDummy();
+   var handler_on_selection_changed = function(){
+      search_type = el._cmp.GetIdSelected();
+   };//handler_on_selection_changed
+   
+   el._cmp.SetHandler_OnSelectionChanged(
+      handler_on_selection_changed );
+   el._cmp.SetData( data_drop_down_list );
+   el._cmp.Render();
+   el._cmp.SetSelectedById( SEARCH_TYPES.BY_NAME );
+}//InitDropDownList
+InitDropDownList();
 
 //----------------------------------------------------------
 var el_fpopup = undefined;
@@ -267,9 +322,7 @@ function InitPopup(){
    el_fpopup._cmp.SetOnBtnSaveClick( OnBtnSaveClick );
    el_fpopup._cmp.SetOnBtnDeleteClick( OnBtnDeleteClick );
 }//InitPopupAndBtnAddNew
-
 InitPopup();
-
 
 //----------------------------------------------------------
 var el_fbutton_addnew = undefined;
@@ -289,7 +342,6 @@ function InitBtnAddNew(){
    el_fbutton_addnew.addEventListener(
       'click', ShowPopupAddNewItem );
 }//InitPopupAndBtnAddNew
-
 InitBtnAddNew();
 //----------------------------------------------------------
 

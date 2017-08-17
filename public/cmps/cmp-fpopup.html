@@ -1,395 +1,407 @@
 <!-- TEMPLATE --------------------------------------------->
 <template id="id-template-fpopup">
-	<style>
-		.popup_outer {
-			position         : fixed;
-			top              : 0;
-			left             : 0;
-			width            : 100%;
-			height           : 100%;
-			background-color : rgba(0, 0, 0, 0.4);
-		}
-		
-		.popup_inner {
-			position           : absolute;
-			left               : 50%;
-			top                : calc(100% / 2 - 320px / 2);
-			transform          : translateX(-50%);
-			width              : 320px;
-			height             : 338px;
-			background-color   : white;
-			
-			-webkit-box-shadow : 0 0 40px 0 rgba(0, 0, 0, 0.38);
-			-moz-box-shadow    : 0 0 40px 0 rgba(0, 0, 0, 0.38);
-			box-shadow         : 0 0 40px 0 rgba(0, 0, 0, 0.38);
-		}
-		
-		.popup_header {
-			font-size        : 14px;
-			font-weight      : bold;
-			line-height      : 32px;
-			
-			color            : #212121;
-			text-transform   : uppercase;
-			padding          : 0 16px 0 16px;
-			
-			background-color : #e9e9e9;
-		}
-		
-		.popup_content {
-			height     : 242px;
-			max-height : 242px;
-			overflow-x : hidden;
-			overflow-y : scroll;
-		}
-		
-		x-fpopup-kv-input {
-			display : block;
-			margin  : 16px 16px 0 16px;
-		}
-		
-		x-fpopup-kv-input:last-child {
-			margin-bottom : 16px;
-		}
-		
-		.popup_controls {
-			border-top : 1px solid #ccc;
-		}
-		
-		#id-btn-save {
-			float        : right;
-			margin-top   : 16px;
-			margin-right : 16px;
-		}
-		
-		#id-btn-cancel {
-			float       : left;
-			margin-top  : 16px;
-			margin-left : 16px;
-		}
-		
-		#id-btn-delete {
-			float       : left;
-			margin-top  : 16px;
-			margin-left : 16px;
-		}
-		
-		.popup_btn {
-			display          : inline-block;
-			padding          : 0 16px 0 16px;
-			height           : 32px;
-			line-height      : 32px;
-			font-size        : 14px;
-			background-color : #e9e9e9;
-			text-transform   : uppercase;
-			cursor           : pointer;
-		}
-		
-		.popup_btn:hover {
-			background-color : #cccccc;
-		}
-	</style>
-	
-	<div class="popup_outer" id="id-popup-cntr">
-		
-		<div class="popup_inner">
-			<div class="popup_header" id="id-popup-header">popup_header</div>
-			
-			<div class="popup_content" id="id-popup-content">
-			</div>
-			
-			<div class="popup_controls">
-				<div id="id-btn-save" class="popup_btn">save</div>
-				<div id="id-btn-cancel" class="popup_btn">cancel</div>
-				<div id="id-btn-delete" class="popup_btn">delete</div>
-			</div>
-		</div>
-	
-	</div>
+    <style>
+        .popup_outer{
+            position         : fixed;
+            top              : 0;
+            left             : 0;
+            width            : 100%;
+            height           : 100%;
+            background-color : rgba(0, 0, 0, 0.4);
+        }
+        
+        .popup_inner{
+            position           : absolute;
+            left               : 50%;
+            top                : calc(100% / 2 - 320px / 2);
+            transform          : translateX(-50%);
+            width              : 320px;
+            height             : 338px;
+            background-color   : white;
+            -webkit-box-shadow : 0 0 40px 0 rgba(0, 0, 0, 0.38);
+            -moz-box-shadow    : 0 0 40px 0 rgba(0, 0, 0, 0.38);
+            box-shadow         : 0 0 40px 0 rgba(0, 0, 0, 0.38);
+        }
+        
+        .popup_header{
+            font-size        : 14px;
+            font-weight      : bold;
+            line-height      : 32px;
+            color            : #212121;
+            text-transform   : uppercase;
+            padding          : 0 16px 0 16px;
+            background-color : #e9e9e9;
+        }
+        
+        .popup_content{
+            height     : 242px;
+            max-height : 242px;
+            overflow-x : hidden;
+            overflow-y : scroll;
+        }
+        
+        x-fpopup-kv-input{
+            display : block;
+            margin  : 16px 16px 0 16px;
+        }
+        
+        x-fpopup-kv-input:last-child{
+            margin-bottom : 16px;
+        }
+        
+        .popup_controls{
+            border-top : 1px solid #ccc;
+        }
+        
+        #id-btn-save{
+            float        : right;
+            margin-top   : 16px;
+            margin-right : 16px;
+        }
+        
+        #id-btn-cancel{
+            float       : left;
+            margin-top  : 16px;
+            margin-left : 16px;
+        }
+        
+        #id-btn-delete{
+            float       : left;
+            margin-top  : 16px;
+            margin-left : 16px;
+        }
+        
+        .popup_btn{
+            display          : inline-block;
+            padding          : 0 16px 0 16px;
+            height           : 32px;
+            line-height      : 32px;
+            font-size        : 14px;
+            background-color : #e9e9e9;
+            text-transform   : uppercase;
+            cursor           : pointer;
+        }
+        
+        .popup_btn:hover{
+            background-color : #cccccc;
+        }
+    </style>
+    
+    <div class="popup_outer" id="id-popup-cntr">
+        
+        <div class="popup_inner">
+            <div class="popup_header"
+                 id="id-popup-header">popup_header
+            </div>
+            
+            <div class="popup_content"
+                 id="id-popup-content">
+            </div>
+            
+            <div class="popup_controls">
+                <div id="id-btn-save"
+                     class="popup_btn">save
+                </div>
+                <div id="id-btn-cancel"
+                     class="popup_btn">cancel
+                </div>
+                <div id="id-btn-delete"
+                     class="popup_btn">delete
+                </div>
+            </div>
+        </div>
+    
+    </div>
 
 </template>
 <!-- END TEMPLATE ----------------------------------------->
 
 <script>
-	
-	
-	//--------------------------------------------------------
-	/**@constructor*/
-	var FPopup = function(){
-		
-		var component = undefined;
-		
-		var parent;
-		
-		var data  = {};
-		var state = FPopup.STATES.NOTSET;
-		
-		var el_root    = undefined;
-		var el_cntr    = undefined;
-		var el_header  = undefined;
-		var el_content = undefined;
-		
-		var ID_CNTR       = '#id-popup-cntr';
-		var ID_HEADER     = '#id-popup-header';
-		var ID_CONTENT    = '#id-popup-content';
-		var ID_BTN_CANCEL = '#id-btn-cancel';
-		var ID_BTN_SAVE   = '#id-btn-save';
-		var ID_BTN_DELETE = '#id-btn-delete';
-		
-		var handler_on_btn_save_clicked   = undefined;
-		var handler_on_btn_delete_clicked = undefined;
-		
-		//------------------------------------------------------
-		this.Init = function( _parent ){
-			
-			parent = _parent;
-			
-			el_root = FCmp.ElementMakeRoot(
-				parent, FPopup.template, FPopup.TAG );
-			
-			el_cntr    = el_root.querySelector( ID_CNTR );
-			el_header  = el_root.querySelector( ID_HEADER );
-			el_content = el_root.querySelector( ID_CONTENT );
-			
-			var el_btn_cancel = el_cntr.querySelector( ID_BTN_CANCEL );
-			var el_btn_save   = el_cntr.querySelector( ID_BTN_SAVE );
-			var el_btn_delete = el_cntr.querySelector( ID_BTN_DELETE );
-			
-			el_content.addEventListener( 'click', OnClickContent );
-			el_btn_cancel.addEventListener( 'click', OnBtnClickCancel );
-			el_btn_save.addEventListener( 'click', OnBtnClickSave );
-			el_btn_delete.addEventListener( 'click', OnBtnClickDelete );
-			
-			this.Hide();
-		};//Init
-		
-		//------------------------------------------------------
-		this.Render = function(){
-			
-			var row_data = data['row_data'];
-			
-			if( row_data === undefined ){
-				return;
-			}//if
-			
-			for( var key in row_data ){
-				if( row_data.hasOwnProperty( key ) ){
-					AddPopupKVInput( key, row_data[key] );
-				}//if
-			}//for
-			
-		};//Refresh
-		
-		//------------------------------------------------------
-		function AddPopupKVInput( text_key, text_value ){
-			
-			var element_data = {
-				'tag'     : FPopupKVInput.TAG,
-				'_data'   : {
-					text_key   : text_key,
-					text_value : text_value
-				},
-				'_render' : 1
-			};
-			
-			FCmp.ElementAdd( el_content, element_data );
-		}//AddPopupKVInput
-		
-		
-		//------------------------------------------------------
-		this.SetRowsData = function( row_data ){
-			FCmp.ElementMakeEmpty( el_content );
-			data['row_data'] = row_data;
-		};//SetRowsData
-		//------------------------------------------------------
-		this.SetStateNew = function(){
-			state               = FPopup.STATES.NEW;
-			el_header.innerText = 'New item';
-			ClearDataRows();
-			
-			AddPopupKVInput( 'name', '' );
-		};//SetStateNew
-		//------------------------------------------------------
-		this.SetStateEdit = function(){
-			state               = FPopup.STATES.EDIT;
-			el_header.innerText = 'Edit item';
-		};//SetStateEdit
-		//------------------------------------------------------
-		this.SetOnBtnSaveClick = function( handler ){
-			handler_on_btn_save_clicked = handler;
-		};//SetOnBtnSaveClick
-		//------------------------------------------------------
-		this.SetOnBtnDeleteClick = function( handler ){
-			handler_on_btn_delete_clicked = handler;
-		};//SetOnBtnSaveClick
-		//------------------------------------------------------
-		
-		
-		//------------------------------------------------------
-		/**  @returns {string}  */
-		this.GetState = function(){
-			return state;
-		};//GetState
-		//------------------------------------------------------
-		
-		
-		//------------------------------------------------------
-		this.Show = function(){
-			this.Render();
-			el_cntr.style.display = 'block';
-		};//Show
-		//------------------------------------------------------
-		this.Hide = function(){
-			el_cntr.style.display = 'none';
-		};//Hide
-		
-		//------------------------------------------------------
-		function ClearDataRows(){
-			parent._cmp.SetRowsData( {} );
-		}//ClearDataRows
-		
-		
-		//------------------------------------------------------
-		/**
-		 * @returns {boolean}
-		 * @description {checks if there is an empty fpopup-input
+   
+   
+   //-------------------------------------------------------
+   /**@constructor*/
+   var FPopup = function(){
+      
+      var component = undefined;
+      
+      var parent;
+      
+      var data = {};
+      var state = FPopup.STATES.NOTSET;
+      
+      var el_root = undefined;
+      var el_cntr = undefined;
+      var el_header = undefined;
+      var el_content = undefined;
+      
+      var ID_CNTR = '#id-popup-cntr';
+      var ID_HEADER = '#id-popup-header';
+      var ID_CONTENT = '#id-popup-content';
+      var ID_BTN_CANCEL = '#id-btn-cancel';
+      var ID_BTN_SAVE = '#id-btn-save';
+      var ID_BTN_DELETE = '#id-btn-delete';
+      
+      var handler_on_btn_save_clicked = undefined;
+      var handler_on_btn_delete_clicked = undefined;
+      
+      //------------------------------------------------------
+      this.Init = function( _parent ){
+         
+         parent = _parent;
+         
+         el_root = FCmp.ElementMakeRoot(
+            parent, FPopup.template, FPopup.TAG );
+         
+         el_cntr = el_root.querySelector( ID_CNTR );
+         el_header = el_root.querySelector( ID_HEADER );
+         el_content = el_root.querySelector( ID_CONTENT );
+         
+         var el_btn_cancel = el_cntr.querySelector( ID_BTN_CANCEL );
+         var el_btn_save = el_cntr.querySelector( ID_BTN_SAVE );
+         var el_btn_delete = el_cntr.querySelector( ID_BTN_DELETE );
+         
+         el_content.addEventListener( 'click', OnClickContent );
+         el_btn_cancel.addEventListener( 'click', OnBtnClickCancel );
+         el_btn_save.addEventListener( 'click', OnBtnClickSave );
+         el_btn_delete.addEventListener( 'click', OnBtnClickDelete );
+         
+         this.Hide();
+      };//Init
+      
+      //------------------------------------------------------
+      this.Render = function(){
+         
+         var row_data = data[ 'row_data' ];
+         
+         if( row_data === undefined ){
+            return;
+         }//if
+         
+         for( var key in row_data ){
+            if( row_data.hasOwnProperty( key ) ){
+               AddPopupKVInput( key, row_data[ key ] );
+            }//if
+         }//for
+         
+      };//Refresh
+      
+      //------------------------------------------------------
+      function AddPopupKVInput( text_key, text_value ){
+         
+         var element_data = {
+            'tag'    : FPopupKVInput.TAG,
+            '_data'  : {
+               text_key  : text_key,
+               text_value: text_value
+            },
+            '_render': 1
+         };
+         
+         FCmp.ElementAdd( el_content, element_data );
+      }//AddPopupKVInput
+      
+      
+      //------------------------------------------------------
+      this.SetRowsData = function( row_data ){
+         FCmp.ElementMakeEmpty( el_content );
+         data[ 'row_data' ] = row_data;
+      };//SetRowsData
+      //------------------------------------------------------
+      this.SetStateNew = function(){
+         state = FPopup.STATES.NEW;
+         el_header.innerText = 'New item';
+         ClearDataRows();
+         
+         AddPopupKVInput( 'name', '' );
+      };//SetStateNew
+      //------------------------------------------------------
+      this.SetStateEdit = function(){
+         state = FPopup.STATES.EDIT;
+         el_header.innerText = 'Edit item';
+      };//SetStateEdit
+      //------------------------------------------------------
+      this.SetOnBtnSaveClick = function( handler ){
+         handler_on_btn_save_clicked = handler;
+      };//SetOnBtnSaveClick
+      //------------------------------------------------------
+      this.SetOnBtnDeleteClick = function( handler ){
+         handler_on_btn_delete_clicked = handler;
+      };//SetOnBtnSaveClick
+      //------------------------------------------------------
+      
+      
+      //------------------------------------------------------
+      /**  @returns {string}  */
+      this.GetState = function(){
+         return state;
+      };//GetState
+      //------------------------------------------------------
+      
+      
+      //------------------------------------------------------
+      this.Show = function(){
+         this.Render();
+         el_cntr.style.display = 'block';
+      };//Show
+      //------------------------------------------------------
+      this.Hide = function(){
+         el_cntr.style.display = 'none';
+      };//Hide
+      
+      //------------------------------------------------------
+      function ClearDataRows(){
+         parent._cmp.SetRowsData( {} );
+      }//ClearDataRows
+      
+      
+      //------------------------------------------------------
+      /**
+       * @returns {boolean}
+       * @description {checks if there is an empty fpopup-input
 		 * to let user enter another key value. Returns TRUE is
 		 * there is no empty one, FALSE if there is.}
-		 * */
-		function IsInputRequired(){
-			
-			var elements = el_content.childNodes;
-			
-			if( elements === undefined ){
-				return true;
-			}//if
-			
-			if( elements.length === 0 ){
-				return true;
-			}//if
-			
-			var is_all_filled = true;
-			var is_current_filled;
-			
-			for( var index in elements ){
-				if( elements.hasOwnProperty( index ) ){
-					is_current_filled = !elements[index]._cmp.IsEmpty();
-					is_all_filled &= is_current_filled;
-				}//if
-				if( index > elements.length ){break;}
-			}//for
-			
-			return is_all_filled;
-		}//IsInputRequired
-		
-		/**
-		 * @description {checks if there is no empty key/value
+       * */
+      function IsInputRequired(){
+         
+         var elements = el_content.childNodes;
+         
+         if( elements === undefined ){
+            return true;
+         }//if
+         
+         if( elements.length === 0 ){
+            return true;
+         }//if
+         
+         var is_all_filled = true;
+         var is_current_filled;
+         
+         for( var index in elements ){
+            if( elements.hasOwnProperty( index ) ){
+               is_current_filled = !elements[ index ]._cmp.IsEmpty();
+               is_all_filled &= is_current_filled;
+            }//if
+            if( index > elements.length ){
+               break;
+            }
+         }//for
+         
+         return is_all_filled;
+      }//IsInputRequired
+      
+      /**
+       * @description {checks if there is no empty key/value
 		 * inputs. If  there is no one - it adds one pair}
-		 * */
-		function AddEmptyKVInputs(){
-			if( IsInputRequired() ){
-				AddPopupKVInput( '', '' );
-			}else{
-				//console.log( "CHecked - no need for k/v iputs" );
-			}
-		}//AddEmptyKVInputs
-		
-		//------------------------------------------------------
-		/**
-		 * @returns {object}
-		 * @description {returns data of the k/v inputs}
-		 */
-		function CollectData(){
-			
-			var elements = el_content.childNodes;
-			
-			var data = {};
-			
-			var CopyObj = function( source, destination ){
-				for( var key in source ){
-					if( elements.hasOwnProperty( index ) ){
-						if( key === '' || source[key] === '' ){ break; }//if
-						destination[key] = source[key];
-					}//if
-				}//for
-			};//CopyObj
-			
-			for( var index in elements ){
-				
-				if( elements.hasOwnProperty( index ) ){
-					CopyObj( elements[index]._cmp.GetData(), data );
-				}//if
-				
-				if( index > elements.length ){break;}
-			}//for
-			
-			return data;
-		}//CollectData
-		
-		
-		//------------------------------------------------------
-		function OnBtnClickSave(){
-			if( handler_on_btn_save_clicked ){
-				var data = CollectData();
-				handler_on_btn_save_clicked( data );
-			}//if
-			component.Hide();
-		}//OnBtnClickSave
-		//------------------------------------------------------
-		function OnBtnClickDelete(){
-			if( handler_on_btn_save_clicked ){
-				handler_on_btn_delete_clicked( data.row_data );
-			}//if
-			component.Hide();
-		}//OnBtnClickSave
-		//------------------------------------------------------
-		function OnBtnClickCancel(){
-			parent._cmp.Hide();
-		}//OnBtnClickCancel
-		//------------------------------------------------------
-		function OnClickContent(){
-			AddEmptyKVInputs();
-		}//OnClickContent
-		//------------------------------------------------------
-		
-		component = this;
-		
-	};//class
-	
-	//--------------------------------------------------------
-	FPopup.STATES = {
-		NOTSET : 'NOTSET',
-		NEW    : 'NEW',
-		EDIT   : 'EDIT'
-	};
-	
-	//--------------------------------------------------------
-	FPopup.ID_TEMPLATE = '#id-template-fpopup';
-	FPopup.TAG         = 'x-fpopup';
-	FPopup.template    = undefined;
-	
-	//--------------------------------------------------------
-	FPopup.InitTemplate = function(){
-		var script = document._currentScript || document.currentScript;
-		var owner  = script.ownerDocument;
-		
-		FPopup.template = owner.querySelector( FPopup.ID_TEMPLATE );
-	};//InitTemplate
-	
-	//--------------------------------------------------------
-	FPopup.CallbackCreated = function(){
-		var instance = new FPopup();
-		instance.Init( this );
-		this._cmp = instance;
-	};//CallbackCreated
-	
-	
-	//--------------------------------------------------------
-	FPopup.InitTemplate();
-	
-	(function(){
-		FCmp.InitComponent(
-			FPopup.CallbackCreated, FPopup.TAG );
-	}());//OnReady function
+       * */
+      function AddEmptyKVInputs(){
+         if( IsInputRequired() ){
+            AddPopupKVInput( '', '' );
+         }else{
+            //console.log( "CHecked - no need for k/v iputs" );
+         }
+      }//AddEmptyKVInputs
+      
+      //------------------------------------------------------
+      /**
+       * @returns {object}
+       * @description {returns data of the k/v inputs}
+       */
+      function CollectData(){
+         
+         var elements = el_content.childNodes;
+         
+         var data = {};
+         
+         var CopyObj = function( source, destination ){
+            for( var key in source ){
+               if( elements.hasOwnProperty( index ) ){
+                  if( key === '' || source[ key ] === '' ){
+                     break;
+                  }//if
+                  destination[ key ] = source[ key ];
+               }//if
+            }//for
+         };//CopyObj
+         
+         for( var index in elements ){
+            
+            if( elements.hasOwnProperty( index ) ){
+               CopyObj( elements[ index ]._cmp.GetData(), data );
+            }//if
+            
+            if( index > elements.length ){
+               break;
+            }
+         }//for
+         
+         return data;
+      }//CollectData
+      
+      
+      //------------------------------------------------------
+      function OnBtnClickSave(){
+         if( handler_on_btn_save_clicked ){
+            var data = CollectData();
+            handler_on_btn_save_clicked( data );
+         }//if
+         component.Hide();
+      }//OnBtnClickSave
+      //------------------------------------------------------
+      function OnBtnClickDelete(){
+         if( handler_on_btn_save_clicked ){
+            handler_on_btn_delete_clicked( data.row_data );
+         }//if
+         component.Hide();
+      }//OnBtnClickSave
+      //------------------------------------------------------
+      function OnBtnClickCancel(){
+         parent._cmp.Hide();
+      }//OnBtnClickCancel
+      //------------------------------------------------------
+      function OnClickContent(){
+         AddEmptyKVInputs();
+      }//OnClickContent
+      //------------------------------------------------------
+      
+      component = this;
+      
+   };//class
+   
+   //--------------------------------------------------------
+   FPopup.STATES = {
+      NOTSET: 'NOTSET',
+      NEW   : 'NEW',
+      EDIT  : 'EDIT'
+   };
+   
+   //--------------------------------------------------------
+   FPopup.ID_TEMPLATE = '#id-template-fpopup';
+   FPopup.TAG = 'x-fpopup';
+   FPopup.template = undefined;
+   
+   //--------------------------------------------------------
+   FPopup.InitTemplate = function(){
+      var script = document._currentScript || document.currentScript;
+      var owner = script.ownerDocument;
+      
+      FPopup.template = owner.querySelector( FPopup.ID_TEMPLATE );
+   };//InitTemplate
+   
+   //--------------------------------------------------------
+   FPopup.CallbackCreated = function(){
+      var instance = new FPopup();
+      instance.Init( this );
+      this._cmp = instance;
+   };//CallbackCreated
+   
+   
+   //--------------------------------------------------------
+   FPopup.InitTemplate();
+   
+   (function(){
+      FCmp.InitComponent(
+         FPopup.CallbackCreated, FPopup.TAG );
+   }());//OnReady function
 
 </script>

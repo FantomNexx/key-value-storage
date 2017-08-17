@@ -88,31 +88,35 @@ FCmp.ElementCreateOnly = function( tag ){
 //----------------------------------------------------------
 /**
  * @param container
- * @param data
+ * @param element_params
  * @returns {*}
  */
-FCmp.ElementAdd = function( container, data ){
+FCmp.ElementAdd = function( container, element_params ){
 	var element;
 	
-	if( data['tag'] === undefined ){
+	if( element_params['tag'] === undefined ){
 		return;
 	}//if
 	
-	element = FCmp.ElementCreateOnly( data['tag'] );
+	element = FCmp.ElementCreateOnly( element_params['tag'] );
 	
-	if( data['text'] !== undefined ){
-		element.innerText = data['text'];
+	if( element_params['text'] !== undefined ){
+		element.innerText = element_params['text'];
 	}//if
 	
-	if( data['class_name'] !== undefined ){
-		element.className = data['class_name'];
+	if( element_params['class_name'] !== undefined ){
+		element.className = element_params['class_name'];
 	}//if
 	
-	if( data['_data'] !== undefined ){
-		element._cmp.SetData( data['_data'] );
+	if( element_params['_data'] !== undefined ){
+		element._cmp.SetData( element_params['_data'] );
 	}//if
+   
+   if( element_params[ 'element_data' ] !== undefined ){
+      element.element_data = element_params[ 'element_data' ];
+   }//if
 	
-	if( data['_render'] !== undefined ){
+	if( element_params['_render'] !== undefined ){
 		element._cmp.Render();
 	}//if
 	
@@ -124,13 +128,55 @@ FCmp.ElementAdd = function( container, data ){
 //----------------------------------------------------------
 /**
  * @param object
- * @returns {*}
+ * @returns {boolean}
  */
 FCmp.IsEmptyObject = function( object ){
-	try{
-		if( object.length === 0 ){
-			return true;
-		}//if no data
-	}catch( exception ){ return true; }//try
-	return false;
+   try{
+      if( object.length === 0 ){
+         return true;
+      }//if no data
+   }catch( exception ){
+      return true;
+   }//try
+   return false;
 };
+//----------------------------------------------------------
+/**
+ * @param node
+ * @returns {object}
+ */
+FCmp.GetElementData = function( node ){
+   try{
+      if( node.element_data === undefined ){
+         return null;
+      }//if no data
+   }catch( exception ){
+      return null;
+   }//try
+   return node.element_data;
+};
+//----------------------------------------------------------
+/**
+ * @param data, id
+ * @returns {object}
+ */
+FCmp.GetDataItemById = function( data, id ){
+   
+   if( data === null ){
+      return null;
+   }//if
+   if( data.length === 0 ){
+      return null;
+   }//if
+   
+   for( var i = 0; i < data.length; i++ ){
+      if(data[i].id === id){
+         return data[i]
+      }//if
+   }//for
+   
+   return null;
+};//GetDataItemById
+//----------------------------------------------------------
+FCmp.tags = {};
+FCmp.tags.DIV = 'div';

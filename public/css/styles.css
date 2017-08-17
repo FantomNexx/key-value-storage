@@ -1,49 +1,51 @@
-* {
-	font-family : 'Source Code Pro', monospace !important;
+*{
+    font-family : 'Source Code Pro', monospace !important;
 }
 
 /*--------------------------------------------------------*/
-body {
-	background-color : #ccc;
-	color            : #212121;
+body{
+    background-color       : #ccc;
+    color                  : #212121;
+    -webkit-font-smoothing : subpixel-antialiased;
 }
 
 /*--------------------------------------------------------*/
-#id-search-container {
-	background-color   : #fafafa;
-
-	margin             : 16px 16px 0 16px;
-	padding-right      : 20px;
-
-	-webkit-box-shadow : 0 0 10px 0 rgba(0, 0, 0, 0.38);
-	-moz-box-shadow    : 0 0 10px 0 rgba(0, 0, 0, 0.38);
-	box-shadow         : 0 0 10px 0 rgba(0, 0, 0, 0.38);
+#id-search-container{
+    margin        : 16px 16px 0 16px;
+    padding-right : 20px;
 }
 
 /*--------------------------------------------------------*/
-#id-search-field {
-	background-color : transparent;
-	color            : #212121;
-	padding          : 16px;
-	font-size        : 16px;
-	width            : 100%;
-	border           : none;
+#id-search-field{
+    background-color   : #fafafa;
+    -webkit-box-shadow : 0 0 10px 0 rgba(0, 0, 0, 0.38);
+    -moz-box-shadow    : 0 0 10px 0 rgba(0, 0, 0, 0.38);
+    box-shadow         : 0 0 10px 0 rgba(0, 0, 0, 0.38);
+    color              : #212121;
+    padding            : 16px;
+    font-size          : 16px;
+    width              : 256px;
+    border             : none;
 }
 
-#id-search-field:focus {
-	outline : none;
+#id-search-field:focus{
+    outline : none;
 }
 
 /*--------------------------------------------------------*/
-.noselect {
-	-webkit-touch-callout : none; /* iOS Safari */
-	-webkit-user-select   : none; /* Safari */
-	-khtml-user-select    : none; /* Konqueror HTML */
-	-moz-user-select      : none; /* Firefox */
-	-ms-user-select       : none; /* Internet Explorer/Edge */
-	user-select           : none;
-	/* Non-prefixed version, currently
-																	 supported by Chrome and Opera */
+#id-drop-down-list{
+    display : inline-block;
+}
+
+/*--------------------------------------------------------*/
+.noselect{
+    -webkit-touch-callout : none; /* iOS Safari */
+    -webkit-user-select   : none; /* Safari */
+    -khtml-user-select    : none; /* Konqueror HTML */
+    -moz-user-select      : none; /* Firefox */
+    -ms-user-select       : none; /* Internet Explorer/Edge */
+    user-select           : none;
+    /* Non-prefixed version, currently supported by Chrome and Opera */
 }
 
 /*--------------------------------------------------------*/
